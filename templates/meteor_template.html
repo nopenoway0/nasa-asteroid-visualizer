@@ -4,13 +4,20 @@
 </head>
 	<body>
 
+
+
 		<div id="container"></div>
 		<div id="info"><a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> webgl - buffergeometry - particles</div>
 
 		<script>
-			var meteors = '{{meteors|tojson|safe}}'
 
-			console.log(meteors)
+			// establish scale between 1 in particle size and 1 in SphereGeometry Size
+			// SphereGeometry 1: Particle 1
+			// SphereGeometry: radius of 1 = 3959 miles
+			// ParticleGeometry:  depends on scale of 1 to 1 of sphere geometry
+			// 1 mile = .01
+			// sample distance miles: 3401319 = 34013.19
+			var meteors = '{{meteors|tojson|safe}}'
 
 			var container;
 
@@ -35,13 +42,13 @@
 
 				//
 
-				var particles = 500000;
+				var particles = 3;
 
 				var geometry = new THREE.BufferGeometry();
 
 				var positions = [];
 				var colors = [];
-
+				var sizes = []
 				var color = new THREE.Color();
 
 				var radius = 650
@@ -55,23 +62,12 @@
 					var y = (Math.random() - .5)
 					var z = (Math.random() - .5)
 
-					var magnitude = Math.sqrt(x*x + y*y + z*z)
-					x /= magnitude
-					y /= magnitude
-					z /= magnitude
-					positions.push( x * radius * Math.random() , y * radius * Math.random(), z * radius * Math.random());
-					//positions.push( x * radius , y * radius, z * radius)
-
-					// colors
-
-					var vx = ( x / n ) + 0.5;
-					var vy = ( y / n ) + 0.5;
-					var vz = ( z / n ) + 0.5;
-
-					color.setRGB( vx, vy, vz );
-
-					colors.push( color.r, color.g, color.b );
-
+					//var magnitude = Math.sqrt(x*x + y*y + z*z)
+					//x /= magnitude
+					//y /= magnitude
+					//z /= magnitude
+					//positions.push( x * radius * Math.random() , y * radius * Math.random(), z * radius * Math.random());
+					positions.push(340.1319, 0, 0)
 				}
 
 				geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( positions, 3 ) );
@@ -81,11 +77,11 @@
 
 				//
 				var texture =  new THREE.TextureLoader().load('https://aerotwist.com/static/tutorials/creating-particles-with-three-js/images/particle.png')
-				var material = new THREE.PointsMaterial( { size:2, color: 0xFFFFFF, sizeAttenuation: false, map:texture, transparent:true, blending: THREE.AdditiveBlending} );
+				var material = new THREE.PointsMaterial( { size:10.0, color: 0xFFFFFF, sizeAttenuation: false, map:texture, transparent:false, blending: THREE.AdditiveBlending} );
 				points = new THREE.Points( geometry, material );
 				scene.add( points );
 
-				var earth = new THREE.SphereGeometry(100, 32, 32)
+				var earth = new THREE.SphereGeometry(39.59, 32, 32)
 				var earthMesh = new THREE.Mesh(earth)
 				scene.add(earthMesh)
 				//
