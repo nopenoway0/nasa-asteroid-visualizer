@@ -41,7 +41,7 @@ def create_app(test_config=None):
                     meteor = NasaMeteor(json=meteor)
                     meteors.append(meteor.serialize())
                 except:
-                    print('error with meteor: ' + str(meteor))
+                    pass#print('error with meteor: ' + str(meteor))
         return render_template('meteor_template.html', meteors=meteors)
 
     return app
