@@ -7,8 +7,6 @@
 
 
 		<div id="container"></div>
-		<div id="info"><a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> webgl - buffergeometry - particles</div>
-
 		<script>
 
 			// establish scale between 1 in particle size and 1 in SphereGeometry Size
@@ -17,7 +15,7 @@
 			// ParticleGeometry:  depends on scale of 1 to 1 of sphere geometry
 			// 1 mile = .01
 			// sample distance miles: 3401319 = 34013.19
-			var meteors = '{{meteors|tojson|safe}}'
+			var meteors = JSON.parse('{{meteors|tojson|safe}}');
 
 			var container;
 
@@ -33,16 +31,14 @@
 
 				//
 
-				camera = new THREE.PerspectiveCamera( 27, window.innerWidth / window.innerHeight, 5, 3500 );
-				camera.position.z = 2750;
+				camera = new THREE.PerspectiveCamera( 27, window.innerWidth / window.innerHeight, 5, 100000 );
+				camera.position.z = 5000;
 
 				scene = new THREE.Scene();
 				scene.background = new THREE.Color( 0x050505 );
 				scene.fog = new THREE.Fog( 0x050505, 2000, 3500 );
 
-				//
-
-				var particles = 3;
+				var particles = meteors.length;
 
 				var geometry = new THREE.BufferGeometry();
 
@@ -56,34 +52,40 @@
 
 				for ( var i = 0; i < particles; i ++ ) {
 
+
+
 					// positions
-
-					var x = (Math.random() - .5)
-					var y = (Math.random() - .5)
-					var z = (Math.random() - .5)
-
+					//var x = (Math.random() - .5)
+					//var y = (Math.random() - .5)
+					//var z = (Math.random() - .5)
+					console.log(meteors[i].miss_distance)
 					//var magnitude = Math.sqrt(x*x + y*y + z*z)
 					//x /= magnitude
 					//y /= magnitude
 					//z /= magnitude
 					//positions.push( x * radius * Math.random() , y * radius * Math.random(), z * radius * Math.random());
-					positions.push(340.1319, 0, 0)
+					//colors.push(0, 0, 0)
+					positions.push(meteors[i].miss_distance.amount / 100 * -1, 0, 0)
 				}
 
 				geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( positions, 3 ) );
-				//geometry.addAttribute( 'color', new THREE.Float32BufferAttribute( colors, 3 ) );
 
 				geometry.computeBoundingSphere();
 
 				//
 				var texture =  new THREE.TextureLoader().load('https://aerotwist.com/static/tutorials/creating-particles-with-three-js/images/particle.png')
-				var material = new THREE.PointsMaterial( { size:10.0, color: 0xFFFFFF, sizeAttenuation: false, map:texture, transparent:false, blending: THREE.AdditiveBlending} );
+				var material = new THREE.PointsMaterial( { size:10.0, color: 0xFFFFFF, sizeAttenuation: false, map:texture, transparent:true, blending: THREE.AdditiveBlending} );
 				points = new THREE.Points( geometry, material );
 				scene.add( points );
 
 				var earth = new THREE.SphereGeometry(39.59, 32, 32)
-				var earthMesh = new THREE.Mesh(earth)
+				var moon = new THREE.SphereGeometry(10.79, 32, 32)
+				var earthMaterial = new THREE.MeshNormalMaterial();
+				var earthMesh = new THREE.Mesh(earth, earthMaterial)
+				var moonMesh = new THREE.Mesh(moon, earthMaterial);
+				moonMesh.position.x = 2389.00
 				scene.add(earthMesh)
+				scene.add(moonMesh)
 				//
 
 				renderer = new THREE.WebGLRenderer();
@@ -123,11 +125,7 @@
 			}
 
 			function render() {
-
-				var time = Date.now() * 0.001;
-
-				points.rotation.x = time * 0.25;
-				points.rotation.y = time * 0.5;
+				//var magnitude = Math.sqrt(points.position.x*points.position.x + points.position.y*points.position.y + points.position.z*points.position.z)
 
 				renderer.render( scene, camera );
 
