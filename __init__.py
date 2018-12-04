@@ -26,13 +26,13 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    @app.route('/')
-    def error_rout():
-        return'error', 404
-
     # a simple page that says hello
-    @app.route('/app')
+    @app.route('/')
     def get_visualizer():
+        texture_locations = {}
+        for planet in ['Sun', 'Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune']:
+            texture_locations[planet] = url_for('static', filename=planet + '.jpg')
+        print(url_for('static', filename='sun.jpg'))
         meteors = []
         with open('static/example_response.json', 'r') as f:
             txt = json.load(f)
@@ -42,6 +42,6 @@ def create_app(test_config=None):
                     meteors.append(meteor.serialize())
                 except:
                     pass#print('error with meteor: ' + str(meteor))
-        return render_template('meteor_template.html', meteors=meteors)
+        return render_template('meteor_template.html', meteors=meteors, texture_locations=texture_locations)
 
     return app
