@@ -1,0 +1,7 @@
+---
+applications:
+  - name: Solar System Visualizer
+    random-route: true
+    memory: 64M
+    disk_quota: 1000M
+    path: ./
