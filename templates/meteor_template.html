@@ -588,6 +588,8 @@
 
 				rotateStart.set( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY );
 
+				event.preventDefault();
+
 			}
 
 			function handleTouchStartDollyPan( event ) {
@@ -614,6 +616,8 @@
 
 				}
 
+				event.preventDefault();
+
 			}
 
 			function handleTouchMoveRotate( event ) {
@@ -633,6 +637,8 @@
 				rotateStart.copy( rotateEnd );
 
 				scope.update();
+
+				event.preventDefault();
 
 			}
 
@@ -899,8 +905,23 @@
 				}
 
 			}
-
+			var raycaster = new THREE.Raycaster()
 			function onTouchEnd( event ) {
+
+				mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
+
+				mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
+
+				raycaster.setFromCamera(mouse, camera);
+				var intersects = raycaster.intersectObjects(meshes);
+				console.log(intersects);
+				
+				if (intersects[0] != undefined) {
+					controls.target.set(intersects[0].object.position.x, intersects[0].object.position.y, intersects[0].object.position.z);
+				}
+
+				if ( scope.enabled === false ) return;
+
 
 				if ( scope.enabled === false ) return;
 
@@ -912,7 +933,7 @@
 
 			}
 
-			var raycaster = new THREE.Raycaster()
+			
 			function onContextMenu( event ) {
 				var mouse = new THREE.Vector2();
 				// move to clicked mesh
