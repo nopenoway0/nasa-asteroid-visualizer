@@ -1094,7 +1094,7 @@
 			// 1 mile = .01
 			// sample distance miles: 3401319 = 34013.19
 			var meteors = JSON.parse('{{meteors|tojson|safe}}');
-			var texture_locations = JSON.parse('{{texture_locations|tojson|safe}}')
+			var planet_info = JSON.parse('{{planet_info|tojson|safe}}')
 			// list of planets
 			var planets = [new Planet('Sun', 432.196, {'x':0, 'y':0, 'z':0}), new Planet('Mercury', 1.516, {'x':500/*35980.00*/, 'y':0, 'z':0}),
 							new Planet('Venus', 3.760, {'x':550/*67240.000*/, 'y':0, 'z':0}),new Planet('Earth',3.959, {'x':600/*92000.000*/, 'y':0, 'z':0}),
@@ -1175,27 +1175,19 @@
 				for(let x = 0; x < planets.length; x++) {
 					console.log('adding ' + planets[x].name + ' to (' + planets[x].x + ',' + planets[x].y + ',' + planets[x].z +')')
 					let planet = new THREE.SphereGeometry(planets[x].radius, 32, 32);
-					let planetMaterial = new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load(texture_locations[planets[x].name])});
+					let planetMaterial = new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load(planet_info[planets[x].name][0])});
 					let mesh = (new THREE.Mesh(planet, planetMaterial));
 					mesh.planetName = planets[x].name;
 					mesh.position.x = planets[x].x;
 					mesh.position.y = planets[x].y;
 					mesh.position.z = planets[x].z;
+					mesh.orbital_period = planet_info[planets[x].name][1];
 					mesh.callback = (event) =>{
 						console.log(event);
 					}
 					meshes.push(mesh);
 					scene.add(mesh);
 				}
-
-				/*var earth = new THREE.SphereGeometry(39.59, 32, 32)
-				var moon = new THREE.SphereGeometry(10.79, 32, 32)
-				var earthMaterial = new THREE.MeshNormalMaterial();
-				var earthMesh = new THREE.Mesh(earth, earthMaterial)
-				var moonMesh = new THREE.Mesh(moon, earthMaterial);
-				moonMesh.position.x = 2389.00
-				scene.add(earthMesh)
-				scene.add(moonMesh)*/
 
 
 				renderer = new THREE.WebGLRenderer();
@@ -1230,6 +1222,8 @@
 
 				requestAnimationFrame( animate );
 				controls.update();
+				for (let x = 0; x < meshes.length; x++)
+					meshes[x].rotateY(0.0174533 / (meshes[x].orbital_period * 5));
 				render();
 
 			}
