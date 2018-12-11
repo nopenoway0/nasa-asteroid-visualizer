@@ -28,5 +28,5 @@ if __name__ =='__main__':
                 except:
                     pass#print('error with meteor: ' + str(meteor))
         return render_template('meteor_template.html', meteors=meteors, planet_info=texture_locations)
-    app.run()#host='0.0.0.0', port=int(os.getenv('PORT', 8000)))
+    app.run(host='0.0.0.0', port=int(os.getenv('PORT', 8000)))
 
