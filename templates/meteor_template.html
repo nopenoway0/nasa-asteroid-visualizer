@@ -1,5 +1,13 @@
 <html>
 <head>
+	<style>
+		.lock-screen{
+		    height: 100%;
+		    overflow: hidden;
+		    width: 100%;
+		    position: fixed;
+		}
+	</style>
 	<script>
 		// TODO MOVE THIS TO OWN FILE
 		class Planet{
@@ -614,6 +622,8 @@
 
 				}
 
+				event.preventDefault();
+
 			}
 
 			function handleTouchMoveRotate( event ) {
@@ -827,8 +837,6 @@
 
 				if ( scope.enabled === false ) return;
 
-				event.preventDefault();
-
 				switch ( event.touches.length ) {
 
 					case 1:	// one-fingered touch: rotate
@@ -869,7 +877,6 @@
 
 				if ( scope.enabled === false ) return;
 
-				event.preventDefault();
 				event.stopPropagation();
 
 				switch ( event.touches.length ) {
@@ -899,8 +906,23 @@
 				}
 
 			}
-
+			var raycaster = new THREE.Raycaster()
 			function onTouchEnd( event ) {
+				var mouse = new THREE.Vector2();
+
+				mouse.x = ( event.changedTouches[0].clientX / renderer.domElement.clientWidth ) * 2 - 1;
+
+				mouse.y = - ( event.changedTouches[0].clientY / renderer.domElement.clientHeight ) * 2 + 1;
+
+				raycaster.setFromCamera(mouse, camera);
+				var intersects = raycaster.intersectObjects(meshes);
+				
+				if (intersects[0] != undefined) {
+					controls.target.set(intersects[0].object.position.x, intersects[0].object.position.y, intersects[0].object.position.z);
+				}
+
+				if ( scope.enabled === false ) return;
+
 
 				if ( scope.enabled === false ) return;
 
@@ -912,7 +934,7 @@
 
 			}
 
-			var raycaster = new THREE.Raycaster()
+			
 			function onContextMenu( event ) {
 				var mouse = new THREE.Vector2();
 				// move to clicked mesh
@@ -1080,9 +1102,10 @@
 		} );
 	</script>
 </head>
-	<body>
+	<body class="lock-screen">
 
-
+	<title>Our Solar System</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
 		<div id="container"></div>
 		<script>
