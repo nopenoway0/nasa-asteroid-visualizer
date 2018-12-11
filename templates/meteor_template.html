@@ -596,8 +596,6 @@
 
 				rotateStart.set( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY );
 
-				event.preventDefault();
-
 			}
 
 			function handleTouchStartDollyPan( event ) {
@@ -645,8 +643,6 @@
 				rotateStart.copy( rotateEnd );
 
 				scope.update();
-
-				event.preventDefault();
 
 			}
 
@@ -841,8 +837,6 @@
 
 				if ( scope.enabled === false ) return;
 
-				event.preventDefault();
-
 				switch ( event.touches.length ) {
 
 					case 1:	// one-fingered touch: rotate
@@ -883,7 +877,6 @@
 
 				if ( scope.enabled === false ) return;
 
-				event.preventDefault();
 				event.stopPropagation();
 
 				switch ( event.touches.length ) {
@@ -915,14 +908,14 @@
 			}
 			var raycaster = new THREE.Raycaster()
 			function onTouchEnd( event ) {
+				var mouse = new THREE.Vector2();
 
-				mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
+				mouse.x = ( event.changedTouches[0].clientX / renderer.domElement.clientWidth ) * 2 - 1;
 
-				mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
+				mouse.y = - ( event.changedTouches[0].clientY / renderer.domElement.clientHeight ) * 2 + 1;
 
 				raycaster.setFromCamera(mouse, camera);
 				var intersects = raycaster.intersectObjects(meshes);
-				console.log(intersects);
 				
 				if (intersects[0] != undefined) {
 					controls.target.set(intersects[0].object.position.x, intersects[0].object.position.y, intersects[0].object.position.z);
@@ -1109,11 +1102,12 @@
 		} );
 	</script>
 </head>
-	<body>
+	<body class="lock-screen">
 
+	<title>Our Solar System</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
-
-		<div id="container" class="lock-screen"></div>
+		<div id="container"></div>
 		<script>
 
 			// establish scale between 1 in particle size and 1 in SphereGeometry Size
