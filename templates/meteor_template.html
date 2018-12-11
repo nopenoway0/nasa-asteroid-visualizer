@@ -1,5 +1,13 @@
 <html>
 <head>
+	<style>
+		.lock-screen{
+		    height: 100%;
+		    overflow: hidden;
+		    width: 100%;
+		    position: fixed;
+		}
+	</style>
 	<script>
 		// TODO MOVE THIS TO OWN FILE
 		class Planet{
@@ -1105,7 +1113,7 @@
 
 
 
-		<div id="container"></div>
+		<div id="container" class="lock-screen"></div>
 		<script>
 
 			// establish scale between 1 in particle size and 1 in SphereGeometry Size
