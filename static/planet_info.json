@@ -1,0 +1,11 @@
+{
+	"Mercury":{"radius":1.516, "location":{"x":500, "y":0, "z":0}, "planet_traits":{"rotation_speed":59}},
+	"Venus":{"radius":3.760, "location":{"x":550, "y":0, "z":0},"planet_traits":{"rotation_speed":243}},
+	"Earth":{"radius":3.959, "location":{"x":600, "y":0, "z":0},"planet_traits":{"rotation_speed":1}},
+	"Mars":{"radius":2.106, "location":{"x":650, "y":0, "z":0},"planet_traits":{"rotation_speed":1.026}},
+	"Jupiter":{"radius": 43.441, "location":{"x":750, "y":0, "z":0}, "planet_traits":{"rotation_speed":0.41}},
+	"Saturn":{"radius":36.184, "location":{"x":850, "y":0, "z":0}, "planet_traits":{"rotation_speed":0.44}},
+	"Uranus":{"radius":15.759, "location":{"x":936, "y":0, "z":0}, "planet_traits":{"rotation_speed":0.72}},
+	"Neptune":{"radius":15.299, "location":{"x":1001, "y":0, "z":0},"planet_traits":{"rotation_speed":0.67}},
+	"Sun": {"radius":432.196, "location": {"x":0, "y":0, "z":0}, "planet_traits":{"rotation_speed":24.47}}
+}
