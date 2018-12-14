@@ -1,13 +1,8 @@
 <html>
 <head>
-	<style>
-		.lock-screen{
-		    height: 100%;
-		    overflow: hidden;
-		    width: 100%;
-		    position: fixed;
-		}
-	</style>
+
+	<title>Our Solar System</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<script>
 		// TODO MOVE THIS TO OWN FILE
 		class Planet{
@@ -23,6 +18,7 @@
 		}
 	</script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/98/three.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.3/dat.gui.min.js'></script>
 	<script>
 		/**
 		 * @author qiao / https://github.com/qiao
@@ -907,20 +903,7 @@
 				}
 
 			}
-			var raycaster = new THREE.Raycaster()
 			function onTouchEnd( event ) {
-				var mouse = new THREE.Vector2();
-
-				mouse.x = ( event.changedTouches[0].clientX / renderer.domElement.clientWidth ) * 2 - 1;
-
-				mouse.y = - ( event.changedTouches[0].clientY / renderer.domElement.clientHeight ) * 2 + 1;
-
-				raycaster.setFromCamera(mouse, camera);
-				var intersects = raycaster.intersectObjects(meshes);
-				
-				if (intersects[0] != undefined) {
-					controls.target.set(intersects[0].object.position.x, intersects[0].object.position.y, intersects[0].object.position.z);
-				}
 
 				if ( scope.enabled === false ) return;
 
@@ -937,18 +920,6 @@
 
 			
 			function onContextMenu( event ) {
-				var mouse = new THREE.Vector2();
-				// move to clicked mesh
-				mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
-
-				mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
-
-				raycaster.setFromCamera(mouse, camera);
-				var intersects = raycaster.intersectObjects(meshes);
-				console.log(intersects);
-				if (intersects[0] != undefined) {
-					controls.target.set(intersects[0].object.position.x, intersects[0].object.position.y, intersects[0].object.position.z);
-				}
 				if ( scope.enabled === false ) return;
 
 				event.preventDefault();
@@ -1103,12 +1074,9 @@
 		} );
 	</script>
 </head>
-	<body class="lock-screen">
+	<body style="padding:0px; margin: 0px">
 
-	<title>Our Solar System</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-
-		<div id="container"></div>
+		<span id="container" style="background:black;position:fixed;margin: 0px;padding: 0px"></span>
 		<script>
 
 			// establish scale between 1 in particle size and 1 in SphereGeometry Size
@@ -1203,6 +1171,7 @@
 
 				// TODOcreate planets
 				// TODO create moons
+				var gui = new dat.GUI();
 
 				for(let x = 0; x < planets.length; x++) {
 					console.log('adding ' + planets[x].name + ' to (' + planets[x].x + ',' + planets[x].y + ',' + planets[x].z +')')
@@ -1217,6 +1186,10 @@
 					mesh.callback = (event) =>{
 						console.log(event);
 					}
+					mesh.setCamera = ()=>{
+						controls.target.set(mesh.position.x, mesh.position.y, mesh.position.z)
+					}
+					gui.add(mesh, 'setCamera').name(planets[x].name);
 					meshes.push(mesh);
 					scene.add(mesh);
 				}
@@ -1226,13 +1199,7 @@
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 
-
 				container.appendChild( renderer.domElement );
-
-				//
-
-
-				//
 
 				window.addEventListener( 'resize', onWindowResize, false );
 				animate();
@@ -1266,7 +1233,6 @@
 				renderer.render( scene, camera );
 
 			}
-
 		</script>
 
 	</body>
