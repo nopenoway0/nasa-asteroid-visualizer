@@ -11,13 +11,14 @@
 	<script>
 		// TODO MOVE THIS TO OWN FILE
 		class Planet{
-			constructor(name, radius, location) {
+			constructor(name, radius, location, planet_traits) {
 				this.name = name;
 				this.radius = radius;
 				this.location = location;
 				this.x = location['x'];
 				this.y = location['y'];
 				this.z = location['z'];
+				this.traits = planet_traits;
 			}
 		}
 	</script>
@@ -1118,12 +1119,19 @@
 			// sample distance miles: 3401319 = 34013.19
 			var meteors = JSON.parse('{{meteors|tojson|safe}}');
 			var planet_info = JSON.parse('{{planet_info|tojson|safe}}')
+			var planets = [];
+			for (let x = 0; x < planet_info.length; x++) {
+				let info = planet_info[x];
+				let planet = new Planet(info[0], info[1].radius, info[1].location, info[1].planet_traits);
+				planet.texture = info[2];
+				planets.push(planet);
+			}
 			// list of planets
-			var planets = [new Planet('Sun', 432.196, {'x':0, 'y':0, 'z':0}), new Planet('Mercury', 1.516, {'x':500/*35980.00*/, 'y':0, 'z':0}),
-							new Planet('Venus', 3.760, {'x':550/*67240.000*/, 'y':0, 'z':0}),new Planet('Earth',3.959, {'x':600/*92000.000*/, 'y':0, 'z':0}),
-							new Planet('Mars', 2.106, {'x':650/*141000.000*/, 'y':0, 'z':0}),new Planet('Jupiter', 43.441, {'x':750/*438000.000*/, 'y':0, 'z':0}),
-							new Planet('Saturn', 36.184, {'x':850/*890000.0*/, 'y':0, 'z':0}), new Planet('Uranus', 15.759, {'x':936/*1784000.0*/, 'y':0, 'z':0}),
-							new Planet('Neptune', 15.299, {'x':1001/*2793000.0*/, 'y':0, 'z':0})]
+			/*var planets = [new Planet('Sun', 432.196, {'x':0, 'y':0, 'z':0}), new Planet('Mercury', 1.516, {'x':500/*35980.00*///, 'y':0, 'z':0}),
+			//				new Planet('Venus', 3.760, {'x':550/*67240.000*/, 'y':0, 'z':0}),new Planet('Earth',3.959, {'x':600/*92000.000*/, 'y':0, 'z':0}),
+			//				new Planet('Mars', 2.106, {'x':650/*141000.000*/, 'y':0, 'z':0}),new Planet('Jupiter', 43.441, {'x':750/*438000.000*/, 'y':0, 'z':0}),
+			//				new Planet('Saturn', 36.184, {'x':850/*890000.0*/, 'y':0, 'z':0}), new Planet('Uranus', 15.759, {'x':936/*1784000.0*/, 'y':0, 'z':0}),
+			//				new Planet('Neptune', 15.299, {'x':1001/*2793000.0*/, 'y':0, 'z':0})]
 
 			var container;
 
@@ -1132,6 +1140,7 @@
 			var points;
 
 			var controls;
+
 
 			init();
 
@@ -1198,13 +1207,13 @@
 				for(let x = 0; x < planets.length; x++) {
 					console.log('adding ' + planets[x].name + ' to (' + planets[x].x + ',' + planets[x].y + ',' + planets[x].z +')')
 					let planet = new THREE.SphereGeometry(planets[x].radius, 32, 32);
-					let planetMaterial = new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load(planet_info[planets[x].name][0])});
+					let planetMaterial = new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load(planets[x].texture)});
 					let mesh = (new THREE.Mesh(planet, planetMaterial));
 					mesh.planetName = planets[x].name;
 					mesh.position.x = planets[x].x;
 					mesh.position.y = planets[x].y;
 					mesh.position.z = planets[x].z;
-					mesh.orbital_period = planet_info[planets[x].name][1];
+					mesh.orbital_period = planets[x].traits['rotation_speed']
 					mesh.callback = (event) =>{
 						console.log(event);
 					}
