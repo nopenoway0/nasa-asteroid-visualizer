@@ -76,6 +76,11 @@ async function init() {
 			createOrbit(planets[x].traits['orbital_data'])
 		mesh.setCamera = ()=>{
 			controls.target.set(mesh.position.x, mesh.position.y, mesh.position.z)
+			camera.position.x = mesh.position.x + planets[x].radius * 4;
+			camera.position.y = mesh.position.y + planets[x].radius * 4;
+			camera.position.z = mesh.position.z + planets[x].radius * 4;
+
+			//controls.dIn(100);
 		}
 		gui.add(mesh, 'setCamera').name(planets[x].name);
 		meshes.push(mesh);
