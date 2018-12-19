@@ -1,11 +1,11 @@
 {
-	"Mercury":{"radius":1.516, "location":{"x":500, "y":0, "z":0}, "planet_traits":{"rotation_speed":59}},
-	"Venus":{"radius":3.760, "location":{"x":550, "y":0, "z":0},"planet_traits":{"rotation_speed":243}},
-	"Earth":{"radius":3.959, "location":{"x":600, "y":0, "z":0},"planet_traits":{"rotation_speed":1}},
-	"Mars":{"radius":2.106, "location":{"x":650, "y":0, "z":0},"planet_traits":{"rotation_speed":1.026}},
-	"Jupiter":{"radius": 43.441, "location":{"x":750, "y":0, "z":0}, "planet_traits":{"rotation_speed":0.41}},
-	"Saturn":{"radius":36.184, "location":{"x":850, "y":0, "z":0}, "planet_traits":{"rotation_speed":0.44}},
-	"Uranus":{"radius":15.759, "location":{"x":936, "y":0, "z":0}, "planet_traits":{"rotation_speed":0.72}},
-	"Neptune":{"radius":15.299, "location":{"x":1001, "y":0, "z":0},"planet_traits":{"rotation_speed":0.67}},
-	"Sun": {"radius":432.196, "location": {"x":0, "y":0, "z":0}, "planet_traits":{"rotation_speed":24.47}}
+	"Mercury":{"radius":1.516, "location":{"x":35621, "y":0, "z":0}, "planet_traits":{"rotation_speed":59, "tilt":0.0349066, "orbital_data":{"circumference":223700.000}}},
+	"Venus":{"radius":3.760, "location":{"x":67277, "y":0, "z":0},"planet_traits":{"rotation_speed":243, "tilt":3.08923, "orbital_data":{"circumference":422500.000}}},
+	"Earth":{"radius":3.959, "location":{"x":92993, "y":0, "z":0},"planet_traits":{"rotation_speed":1, "tilt":0.4101524, "orbital_data":{"circumference":584000.000}}},
+	"Mars":{"radius":2.106, "location":{"x":141401, "y":0, "z":0},"planet_traits":{"rotation_speed":1.026, "tilt":0.436332, "orbital_data":{"circumference":888000.000}}},
+	"Jupiter":{"radius": 43.441, "location":{"x":483598, "y":0, "z":0}, "planet_traits":{"rotation_speed":0.41, "tilt":0.0523599, "orbital_data":{"circumference":3037000.000}}},
+	"Saturn":{"radius":36.184, "location":{"x":886289, "y":0, "z":0}, "planet_traits":{"rotation_speed":0.44, "tilt":0.4660029, "orbital_data":{"circumference":5565900.000}}},
+	"Uranus":{"radius":15.759, "location":{"x":1783646, "y":0, "z":0}, "planet_traits":{"rotation_speed":0.72, "tilt":1.571, "orbital_data":{"circumference":11201300.000}}},
+	"Neptune":{"radius":15.299, "location":{"x":2796544, "y":0, "z":0},"planet_traits":{"rotation_speed":0.67, "tilt":0.49427724, "orbital_data":{"circumference":17562300.000}}},
+	"Sun": {"radius":432.196, "location": {"x":0, "y":0, "z":0}, "planet_traits":{"rotation_speed":24.47, "tilt":0.10472}}
 }

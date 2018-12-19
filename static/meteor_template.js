@@ -4,7 +4,7 @@ async function init() {
 
 	//
 
-	camera = new THREE.PerspectiveCamera( 27, window.innerWidth / window.innerHeight, 5, 100000000 );
+	camera = new THREE.PerspectiveCamera( 27, window.innerWidth / window.innerHeight, 5, 1000000000 );
 	camera.position.z = 5000;
 
 	var light = new THREE.PointLight( 0xff0000, 1, 100 );
@@ -70,10 +70,10 @@ async function init() {
 		mesh.position.z = planets[x].z;
 		mesh.orbital_period = planets[x].traits['rotation_speed']
 		console.log(planets[x]);
-		if (planets[x].traits['tilt'] != undefined) {
+		if (planets[x].traits['tilt'] != undefined)
 			mesh.rotateX(planets[x].traits['tilt']);
-			console.log('rotated: ' + planets[x].traits['tilt'])
-		}
+		if (planets[x].traits['orbital_data'] != undefined)
+			createOrbit(planets[x].traits['orbital_data'])
 		mesh.setCamera = ()=>{
 			controls.target.set(mesh.position.x, mesh.position.y, mesh.position.z)
 		}
@@ -103,10 +103,25 @@ function onWindowResize() {
 
 }
 
-//
+function createOrbit( orbit_data ){
+	var radius = orbit_data['circumference'] / (2 * 3.14);
+	var material = new THREE.LineBasicMaterial({
+		color: 0xFFFFFF, transparent:true, opacity:0.45
+	});
+
+	var geometry = new THREE.Geometry();
+	for (let i = 0; i <= 360; i++){
+		let y = Math.sin(i * Math.PI / 180) * radius;
+		let x = Math.cos(i * Math.PI / 180) * radius;
+		geometry.vertices.push(
+			new THREE.Vector3( x, 0, y )
+		);
+	}
+	var line = new THREE.Line( geometry, material );
+	scene.add( line );
+}
 
 function animate() {
-
 	requestAnimationFrame( animate );
 	controls.update();
 	for (let x = 0; x < meshes.length; x++)
@@ -117,7 +132,8 @@ function animate() {
 
 function render() {
 	//var magnitude = Math.sqrt(points.position.x*points.position.x + points.position.y*points.position.y + points.position.z*points.position.z)
-
+	for (let x = 0; x < lods.length; x++)
+		lods[x].update(camera);
 	renderer.render( scene, camera );
 
 }

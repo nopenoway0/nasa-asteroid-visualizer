@@ -1079,12 +1079,14 @@
 
 		<span id="container" style="background:black;position:fixed;margin: 0px;padding: 0px"></span>
 		<script>
+
 			// establish scale between 1 in particle size and 1 in SphereGeometry Size
 			// SphereGeometry 1: Particle 1
 			// SphereGeometry: radius of 1 = 3959 miles
 			// ParticleGeometry:  depends on scale of 1 to 1 of sphere geometry
 			// 1 mile = .01
 			// sample distance miles: 3401319 = 34013.19
+			var lods = [];
 			var meteors = JSON.parse('{{meteors|tojson|safe}}');
 			var planet_info = JSON.parse('{{planet_info|tojson|safe}}')
 			var planets = [];
