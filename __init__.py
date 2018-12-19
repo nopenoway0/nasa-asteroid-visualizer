@@ -26,6 +26,6 @@ if __name__ =='__main__':
                     meteors.append(meteor.serialize())
                 except:
                     pass#print('error with meteor: ' + str(meteor))
-        return render_template('meteor_template.html', meteors=meteors, planet_info=planet_info_obj)
+        return render_template('meteor_template.html', meteors=meteors, planet_info=planet_info_obj, js_src=url_for('static', filename='meteor_template.js'))
     app.run(host='0.0.0.0', port=int(os.getenv('PORT', 8000)))
 
