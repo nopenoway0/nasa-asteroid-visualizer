@@ -60,7 +60,7 @@ async function init() {
 	var gui = new dat.GUI();
 
 	for(let x = 0; x < planets.length; x++) {
-		console.log('adding ' + planets[x].name + ' to (' + planets[x].x + ',' + planets[x].y + ',' + planets[x].z +')')
+		//console.log('adding ' + planets[x].name + ' to (' + planets[x].x + ',' + planets[x].y + ',' + planets[x].z +')' + ' traits ' + planets[x].traits)
 		let planet = new THREE.SphereGeometry(planets[x].radius, 32, 32);
 		let planetMaterial = new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load(planets[x].texture)});
 		let mesh = (new THREE.Mesh(planet, planetMaterial));
@@ -69,8 +69,10 @@ async function init() {
 		mesh.position.y = planets[x].y;
 		mesh.position.z = planets[x].z;
 		mesh.orbital_period = planets[x].traits['rotation_speed']
-		mesh.callback = (event) =>{
-			console.log(event);
+		console.log(planets[x]);
+		if (planets[x].traits['tilt'] != undefined) {
+			mesh.rotateX(planets[x].traits['tilt']);
+			console.log('rotated: ' + planets[x].traits['tilt'])
 		}
 		mesh.setCamera = ()=>{
 			controls.target.set(mesh.position.x, mesh.position.y, mesh.position.z)
